@@ -14,7 +14,7 @@ const ChatHistoryCardMeta = {
       month: "01",
       year: "2021",
     },
-    textTitle: "Kiswahili",
+    language: "Kiswahili",
     description: "Habari ya nyumbani?",
     openChat: () => {
       console.log("Open chat");

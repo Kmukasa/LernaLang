@@ -1,24 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, TextInput, Pressable } from "react-native";
-import SendIcon from "../../assets/icons/SendIcon";
+import { MicrophoneIcon, SendIcon } from "../../assets/icons";
 
-const TextInputField = ({ value, sendResponse }) => {
-  const [input, setInput] = useState(value || "");
+const ChatInputField = ({ value, sendResponse }) => {
+  const [input, setInput] = useState(value);
 
-  const handleChangeText = (text) => {
-    setInput(text);
-  };
-
-  const handlePressSend = () => {
+  const handleOnPress = () => {
     sendResponse(input);
     setInput("");
   };
 
   return (
     <View style={styles.inputContainer}>
+      <Pressable
+        style={({ pressed }) => [
+          {
+            opacity: pressed ? 0.5 : 1,
+          },
+          styles.microphoneButton,
+        ]}
+        onPress={() => console.log("Pressed Microphone")}
+      >
+        <MicrophoneIcon height={28} width={28} color={"#000"} />
+      </Pressable>
       <TextInput
         style={styles.input}
-        onChangeText={handleChangeText}
+        onChangeText={(input) => setInput(input)}
         value={input}
         placeholder="Enter response..."
         keyboardType="default"
@@ -31,7 +38,7 @@ const TextInputField = ({ value, sendResponse }) => {
           },
           styles.sendButton,
         ]}
-        onPress={handlePressSend}
+        onPress={() => handleOnPress()}
       >
         <SendIcon
           height={28}
@@ -46,10 +53,11 @@ const TextInputField = ({ value, sendResponse }) => {
 const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
-    marginLeft: 15,
-    marginRight: 15,
+    marginLeft: 20,
+    marginRight: 20,
     padding: 10,
     minHeight: 10,
+    maxHeight: 110,
     backgroundColor: "#fff",
     borderRadius: 25,
     borderWidth: 1,
@@ -61,7 +69,7 @@ const styles = StyleSheet.create({
     fontWeight: "regular",
     textAlign: "left",
     padding: 5,
-    width: "90%",
+    width: 250,
   },
   sendButton: {
     position: "relative",
@@ -69,6 +77,13 @@ const styles = StyleSheet.create({
     width: "10%",
     right: 10,
   },
+  microphoneButton: {
+    position: "relative",
+    justifyContent: "center",
+    width: "10%",
+    left: 10,
+    marginRight: 5,
+  },
 });
 
-export default TextInputField;
+export default ChatInputField;

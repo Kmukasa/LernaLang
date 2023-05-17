@@ -10,6 +10,7 @@ export default {
   },
   args: {
     text: "Chat History",
+    onPress: () => console.log("Clicked menu button"),
   },
   decorators: [
     (Story) => (

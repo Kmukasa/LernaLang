@@ -16,6 +16,13 @@ global.STORIES = [
     importPathMatcher:
       "^\\.[\\\\/](?:components\\/stories\\/(?!\\.)(?=.)[^/]*?\\.stories\\.js)$",
   },
+  {
+    titlePrefix: "",
+    directory: "./pages/stories",
+    files: "*.stories.js",
+    importPathMatcher:
+      "^\\.[\\\\/](?:pages\\/stories\\/(?!\\.)(?=.)[^/]*?\\.stories\\.js)$",
+  },
 ];
 
 import "@storybook/addon-ondevice-controls/register";
@@ -47,14 +54,21 @@ try {
 
 const getStories = () => {
   return {
+    "./components/stories/CardList.stories.js": require("../components/stories/CardList.stories.js"),
     "./components/stories/ChatBubble.stories.js": require("../components/stories/ChatBubble.stories.js"),
     "./components/stories/ChatHistoryCard.stories.js": require("../components/stories/ChatHistoryCard.stories.js"),
+    "./components/stories/ChatInputField.stories.js": require("../components/stories/ChatInputField.stories.js"),
     "./components/stories/HamburgerMenu.stories.js": require("../components/stories/HamburgerMenu.stories.js"),
+    "./components/stories/Header.stories.js": require("../components/stories/Header.stories.js"),
     "./components/stories/MenuButton.stories.js": require("../components/stories/MenuButton.stories.js"),
     "./components/stories/RadioButton.stories.js": require("../components/stories/RadioButton.stories.js"),
     "./components/stories/SelectableCard.stories.js": require("../components/stories/SelectableCard.stories.js"),
     "./components/stories/SignInButton.stories.js": require("../components/stories/SignInButton.stories.js"),
-    "./components/stories/TextInputField.stories.js": require("../components/stories/TextInputField.stories.js"),
+    "./pages/stories/Chat.stories.js": require("../pages/stories/Chat.stories.js"),
+    "./pages/stories/ChatHistory.stories.js": require("../pages/stories/ChatHistory.stories.js"),
+    "./pages/stories/ChatOptions.stories.js": require("../pages/stories/ChatOptions.stories.js"),
+    "./pages/stories/Landing.stories.js": require("../pages/stories/Landing.stories.js"),
+    "./pages/stories/Menu.stories.js": require("../pages/stories/Menu.stories.js"),
   };
 };
 

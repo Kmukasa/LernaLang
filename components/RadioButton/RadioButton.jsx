@@ -23,8 +23,8 @@ const RadioButton = ({ radioOptions, handleSelection }) => {
 const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "column",
-    margin: 20,
-    padding: 5,
+    marginLeft: 10,
+    // padding: 5,
     alignItems: "center",
     justifyContent: "center",
   },

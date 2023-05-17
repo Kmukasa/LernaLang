@@ -1,9 +1,10 @@
 import React from "react";
 import { StyleSheet, Pressable, Text } from "react-native";
 
-const MenuButton = ({ text }) => {
+const MenuButton = ({ text, onPress }) => {
   const handlePress = () => {
     console.log("Pressed");
+    onPress();
   };
   return (
     <Pressable
@@ -23,12 +24,13 @@ const MenuButton = ({ text }) => {
 const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
-    margin: 30,
+    margin: 10,
     padding: 5,
     borderColor: "#0601B4",
     borderWidth: 1,
     alignItems: "center",
     justifyContent: "center",
+    minWidth: 250,
   },
   buttonText: {
     padding: 10,

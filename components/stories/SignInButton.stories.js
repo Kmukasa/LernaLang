@@ -1,8 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { SignInButton } from "../";
-import GoogleLogo from "../../assets/images/GoogleLogo";
-import Phone from "../../assets/images/Phone";
+import { GoogleLogo, Phone } from "../../assets/icons/";
 
 const SignInButtonMeta = {
   title: "SignInButton",

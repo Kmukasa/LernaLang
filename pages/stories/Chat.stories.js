@@ -1,19 +1,14 @@
 import React from "react";
 import { View } from "react-native";
-import { TextInputField } from "../";
+import { Chat } from "..";
 
-const TextInputFieldMeta = {
-  title: "TextInputField",
-  component: TextInputField,
+const ChatMeta = {
+  title: "Chat",
+  component: Chat,
   argTypes: {
     onPress: { action: "pressed the button" },
   },
-  args: {
-    value: "",
-    sendResponse: (input) => {
-      console.log(input);
-    },
-  },
+  args: {},
   decorators: [
     (Story) => (
       <View
@@ -22,7 +17,7 @@ const TextInputFieldMeta = {
           backgroundColor: "white",
           justifyContent: "center",
           flex: 1,
-          height: 100,
+          height: "100%",
         }}
       >
         <Story />
@@ -31,6 +26,6 @@ const TextInputFieldMeta = {
   ],
 };
 
-export default TextInputFieldMeta;
+export default ChatMeta;
 
 export const Basic = {};

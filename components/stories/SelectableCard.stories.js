@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { View } from "react-native";
 import { SelectableCard } from "../";
-import { ActivitiesIcon } from "../../assets/icons";
-import { MusicIcon } from "../../assets/icons";
+import { ActivitiesIcon, MusicIcon } from "../../assets/icons";
 
 const SelectableCardMeta = {
   title: "SelectableCard",
@@ -11,12 +10,13 @@ const SelectableCardMeta = {
     onPress: { action: "pressed the button" },
   },
   args: {
+    id: "hobbies",
     text: "Hobbies",
     onPress: () => {
       console.log("pressed Option 1");
     },
-    children: <ActivitiesIcon color="#0601B4" />,
-    pressed: false,
+    selected: false,
+    children: <ActivitiesIcon width={34} height={34} color="#0601B4" />,
   },
   decorators: [
     (Story) => (
@@ -41,7 +41,9 @@ export const Basic = {};
 
 export const Music = {
   args: {
+    id: "music",
     text: "Music",
-    children: <MusicIcon color="#0601B4" />,
+    selected: false,
+    children: <MusicIcon height={34} width={34} color="#0601B4" />,
   },
 };

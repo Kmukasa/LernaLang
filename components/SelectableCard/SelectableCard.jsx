@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 
-const SelectableCard = ({ text, selected, onPress, children }) => {
+const SelectableCard = ({ id, text, selected, onPress, children }) => {
+  useEffect(() => {
+    console.log("selected: ", selected);
+  }, [selected]);
+
   return (
-    <Pressable onPress={onPress}>
+    <Pressable
+      id={id}
+      onPress={onPress}
+      style={selected && styles.selectedCard}
+    >
       <View style={styles.cardContainer}>
         <Text style={styles.textStyle}>{text}</Text>
         <View style={styles.icon}>{children}</View>
@@ -18,27 +26,40 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#0601B4",
     padding: 10,
-    height: 135,
+    height: 140,
     width: 125,
     borderRadius: 20,
     shadowColor: "#0601B4",
     shadowOffset: { width: 5, height: 5 },
     shadowOpacity: 0.3,
     shadowRadius: 3,
+    margin: 5,
   },
-  pressedCard: {
-    outlineColor: "#0601B4",
-    outlineStyle: "solid",
-    outlineWidth: 2,
+  selectedCard: {
+    // create a border ring around the card when selected
+    // opacity: 0.5,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 155,
+    borderRadius: 20,
+    borderOffset: 2,
+    borderWidth: 2,
+    borderColor: "red",
+    borderStyle: "solid",
+    borderColor: "#0601B4",
+    marginLeft: 10,
+    marginRight: 10,
   },
   textStyle: {
     color: "white",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
+    paddingBottom: 10,
   },
   icon: {
-    padding: 3,
+    // padding: 5,
+    justifyContent: "center",
     marginTop: 10,
     alignItems: "center",
     backgroundColor: "white",

@@ -1,13 +1,10 @@
 import React from "react";
 import { StyleSheet, Pressable, Text } from "react-native";
 
-const SignInButton = ({ text, children }) => {
-  const handlePress = () => {
-    console.log("Pressed");
-  };
+const SignInButton = ({ text, onPress, children }) => {
   return (
     <Pressable
-      onPress={handlePress}
+      onPress={onPress}
       style={({ pressed }) => [
         {
           backgroundColor: pressed ? "#ced5de" : "#ffff",
@@ -24,9 +21,9 @@ const SignInButton = ({ text, children }) => {
 const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
-    margin: 30,
-    padding: 5,
-    // backgroundColor: "#fff",
+    minWidth: 300,
+    margin: 10,
+    padding: 10,
     borderRadius: 30,
     borderColor: "#000",
     borderWidth: 1,
