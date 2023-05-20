@@ -41,10 +41,8 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   titleStyles: {
-    position: "absolute",
-    top: 50,
-    marginBottom: 40,
-    marginTop: 40,
+    marginBottom: 30,
+    marginTop: 30,
     fontSize: 35,
     fontWeight: "bold",
     color: "#000",

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, TextInput, Pressable } from "react-native";
 import { MicrophoneIcon, SendIcon } from "../../assets/icons";
 
-const ChatInputField = ({ value, sendResponse }) => {
+const ChatInputField = ({ value, sendResponse, onFocus }) => {
   const [input, setInput] = useState(value);
 
   const handleOnPress = () => {
@@ -30,6 +30,7 @@ const ChatInputField = ({ value, sendResponse }) => {
         placeholder="Enter response..."
         keyboardType="default"
         multiline={true}
+        onFocus={onFocus}
       />
       <Pressable
         style={({ pressed }) => [
@@ -52,9 +53,8 @@ const ChatInputField = ({ value, sendResponse }) => {
 
 const styles = StyleSheet.create({
   inputContainer: {
+    width: "100%",
     flexDirection: "row",
-    marginLeft: 20,
-    marginRight: 20,
     padding: 10,
     minHeight: 10,
     maxHeight: 110,

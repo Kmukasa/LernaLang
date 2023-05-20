@@ -37,11 +37,17 @@ import {
   SwahiliIcon,
 } from "../assets/icons";
 
+const PROFICIENCY = {
+  BEGINNER: "Beginner",
+  CONVERSATIONAL: "Conversational",
+  PROFICIENT: "Proficient",
+};
+
 const SKILL_LEVELS = [
   {
     id: "0",
-    label: "Easy",
-    value: "Easy",
+    label: "Beginner",
+    value: "Beginner",
   },
   {
     id: "1",
@@ -211,4 +217,4 @@ const TOPICS = [
   },
 ];
 
-export { SKILL_LEVELS, LANGUAGES, TOPICS };
+export { SKILL_LEVELS, LANGUAGES, TOPICS, PROFICIENCY };

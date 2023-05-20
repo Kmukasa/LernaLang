@@ -10,7 +10,7 @@ function PoliticsIcon({ height, width, color }) {
       xmlns="http://www.w3.org/2000/svg"
       fill={color || "#000"}
     >
-      <G fill="#000">
+      <G fill={color || "#000"}>
         <Path d="M7.25 1.25C7.25.56 7.81 0 8.5 0h1.75a.75.75 0 010 1.5h-1.5v1.056a5.002 5.002 0 014.242 4.653.75.75 0 11-1.498.086 3.5 3.5 0 00-6.988 0 .75.75 0 11-1.498-.086A5.002 5.002 0 017.25 2.556V1.25z" />
         <Path
           fillRule="evenodd"

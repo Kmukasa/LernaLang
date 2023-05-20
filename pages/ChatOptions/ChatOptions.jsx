@@ -14,34 +14,37 @@ import { LANGUAGES, SKILL_LEVELS, TOPICS } from "../../components/constants";
 const ChatOptions = ({ navigation }) => {
   const [language, setLanguage] = useState("");
   const [topic, setTopic] = useState("");
-  const [difficulty, setDifficulty] = useState("");
+  const [proficiency, setProficiency] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
   useEffect(() => {
-    if (language !== "" && topic !== "" && difficulty !== "") {
+    if (language !== "" && topic !== "" && proficiency !== "") {
       setButtonDisabled(false);
     }
-  }, [language, topic, difficulty]);
+  }, [language, topic, proficiency]);
 
   const handleSubmit = () => {
-    if (language === "" || topic === "" || difficulty === "") {
+    if (language === "" || topic === "" || proficiency === "") {
       console.log("Please select all options");
     } else {
-      console.log("Submitted");
-      navigation.navigate("Chat");
+      navigation.navigate("Chat", {
+        language: language,
+        topic: topic,
+        proficiency: proficiency,
+      });
     }
   };
 
   const handleLanguageSelection = (e) => {
-    setLanguage(e);
+    setLanguage(e.text);
   };
 
   const handleTopicSelection = (e) => {
-    setTopic(e);
+    setTopic(e.text);
   };
 
-  const handleDifficultySelection = (e) => {
-    setDifficulty(e);
+  const handleProficiencySelection = (e) => {
+    setProficiency(e.label);
   };
 
   return (
@@ -70,11 +73,11 @@ const ChatOptions = ({ navigation }) => {
             handleSelected={handleTopicSelection}
           />
         </View>
-        <View style={styles.difficultyList}>
+        <View style={styles.proficiencyList}>
           <Text style={styles.subHeading}>Select your proficiency</Text>
           <RadioButton
             radioOptions={SKILL_LEVELS}
-            handleSelection={handleDifficultySelection}
+            handleSelection={handleProficiencySelection}
           />
         </View>
       </ScrollView>
@@ -112,7 +115,7 @@ const styles = StyleSheet.create({
   },
   languageList: {},
   topicsList: {},
-  difficultyList: {
+  proficiencyList: {
     width: "100%",
     marginBottom: 70,
   },

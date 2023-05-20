@@ -95,7 +95,7 @@ const SignIn = ({ navigation }) => {
         </TouchableOpacity>
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
-            Already got an account?{" "}
+            Don't have an account?{" "}
             <Text
               onPress={() => navigation.navigate("SignUp")}
               style={styles.footerLink}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, FlatList, View } from "react-native";
-import { SelectableCard } from "../";
+import SelectableCard from "./SelectableCard";
 
 // renders a scrollable list of selectable card elements
 const CardList = ({ items, scrollDirection, handleSelected }) => {
@@ -20,7 +20,7 @@ const CardList = ({ items, scrollDirection, handleSelected }) => {
             text={item.text}
             description={item.description || ""}
             selected={selectedCard === item.id}
-            onPress={() => handlePress(item.id)}
+            onPress={() => handlePress(item.id, item.text)}
           >
             {item.icon}
           </SelectableCard>

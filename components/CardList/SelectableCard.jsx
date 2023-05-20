@@ -2,10 +2,6 @@ import React, { useEffect } from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 
 const SelectableCard = ({ id, text, selected, onPress, children }) => {
-  useEffect(() => {
-    console.log("selected: ", selected);
-  }, [selected]);
-
   return (
     <Pressable
       id={id}
@@ -36,8 +32,6 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   selectedCard: {
-    // create a border ring around the card when selected
-    // opacity: 0.5,
     alignItems: "center",
     justifyContent: "center",
     height: 155,

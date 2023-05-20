@@ -14,7 +14,6 @@ const Header = ({ text, leftButton, rightButton }) => {
 const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: "#fff",
-    // position: "absolute",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
