@@ -3,15 +3,15 @@ import {
   StyleSheet,
   View,
   SafeAreaView,
-  Pressable,
   Text,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { CardList, Header, RadioButton, HamburgerMenu } from "../../components";
 import { LadderIcon } from "../../assets/icons";
 import { LANGUAGES, SKILL_LEVELS, TOPICS } from "../../components/constants";
 
-const ChatOptions = ({ navigation }) => {
+const ChatOptions = ({ route, navigation }) => {
   const [language, setLanguage] = useState("");
   const [topic, setTopic] = useState("");
   const [proficiency, setProficiency] = useState("");
@@ -81,18 +81,13 @@ const ChatOptions = ({ navigation }) => {
           />
         </View>
       </ScrollView>
-      <Pressable
-        style={[
-          {
-            backgroundColor: buttonDisabled ? "#B3B3B3" : "#0601B4",
-          },
-          styles.submitButton,
-        ]}
+      <TouchableOpacity
+        style={styles.submitButton}
         onPress={handleSubmit}
         disabled={buttonDisabled}
       >
         <Text style={styles.submitText}>Start Conversation</Text>
-      </Pressable>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -120,6 +115,7 @@ const styles = StyleSheet.create({
     marginBottom: 70,
   },
   submitButton: {
+    backgroundColor: "#0601B4",
     bottom: 20,
     width: "90%",
     height: 50,

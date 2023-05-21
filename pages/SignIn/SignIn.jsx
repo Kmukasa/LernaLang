@@ -18,12 +18,12 @@ import { auth, db } from "../../firebase/config";
 const SignIn = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onLoginPress = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((response) => {
         const uid = response.user.uid;
-        console.log("uid", uid);
         const usersRef = collection(db, "users");
         const userDocRef = doc(usersRef, uid);
         getDoc(userDocRef)
@@ -32,18 +32,17 @@ const SignIn = ({ navigation }) => {
               alert("User does not exist.");
               return;
             }
-            console.log("Before getting user");
             const user = docSnap.data();
-            console.log("user", user);
-            navigation.navigate("Chat Options");
+            navigation.navigate("Chat Options", { user: user });
           })
           .catch((error) => {
             console.log(error);
-            alert(error);
+            setErrorMessage(error.message);
           });
       })
       .catch((error) => {
-        alert(error);
+        console.log(error.message);
+        setErrorMessage("Invalid email or password.");
       });
   };
 
@@ -69,6 +68,7 @@ const SignIn = ({ navigation }) => {
         <View style={{ margin: 40 }}>
           <LernaLangLogo height={150} width={100} />
         </View>
+        <Text style={styles.error}>{errorMessage}</Text>
         <View style={styles.inputsView}>
           <TextInput
             style={styles.input}
@@ -136,6 +136,13 @@ const styles = StyleSheet.create({
     marginRight: 30,
     paddingLeft: 16,
     color: "#000",
+  },
+  error: {
+    color: "red",
+    fontSize: 12,
+    fontWeight: "bold",
+    textAlign: "left",
+    width: "80%",
   },
   button: {
     backgroundColor: "#0601B4",
