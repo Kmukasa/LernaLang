@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -9,8 +9,12 @@ import {
 } from "react-native";
 import { ChatBubble, ChatInputField, Header } from "../../components";
 import { LadderIcon, BackIcon } from "../../assets/icons";
+import { OPENAI_MODEL, OPENAI_CHAT_REQUEST_URL, OPENAI_API_KEY } from "@env";
+import { storeConversation } from "../../firebase/config";
+import { AuthContext } from "../../Contexts/AuthContext";
 
-const MAX_CONVERSATION_LENGTH = 10;
+const MAX_CONVERSATION_LENGTH = 2;
+const MAX_RETRIES = 3;
 
 const Chat = ({ route, navigation }) => {
   const { language, topic, proficiency } = route.params;
@@ -21,27 +25,49 @@ const Chat = ({ route, navigation }) => {
   const [messages, setMessages] = useState([
     {
       role: "system",
-      content: `You are a friendly and helpful language learning tutor called Lerna. Ask a this user a question in ${language} about ${topic} so that they can practice speaking and writing ${language}. Note that they are a ${proficiency} level speaker. Ask one question at a time and make the quesiton short and concise`,
+      content: `You are a friendly and helpful language learning tutor called Lerna. Ask this user a question in ${language} about ${topic} so that they can practice speaking and writing ${language}. Note that they are a ${proficiency} level speaker. In your conversation with them ask one question at a time, wait for their responses and reply thoughtfully with short and concise quesitons.`,
     },
   ]);
   const endConversationMessage = {
     role: "system",
-    content: `End the conversation with the user by saying thanks for chatting and goodblye in ${language}`,
+    content: `End the conversation with the user by saying thanks for chatting and goodbye in ${language}`,
   };
 
-  // function for sendign a message to the api
+  const { authUserId } = useContext(AuthContext);
+
+  // function for sending a message to the api
   const getMessage = async (messages) => {
+    let response = null;
+    let retryCount = 0;
+    let messageData = null;
+    // TODO: Add retry logic
     try {
-      const message = await fetch("http://localhost:3000/sendMessage", {
+      response = await fetch(OPENAI_CHAT_REQUEST_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${OPENAI_API_KEY}`,
+        },
         body: JSON.stringify({
+          model: OPENAI_MODEL,
           messages: messages,
+          max_tokens: 150,
         }),
       });
-      const messageData = await message.json();
+      // After retrying if response is server_error, throw error
+      if (!response.ok) {
+        const error = await response.json();
+        console.error("OpenAI API Error:", error);
+        throw new Error("OpenAI API Error");
+      }
+
+      // If response is ok, return message data
+      messageData = await response.json();
       console.log("Message data ", messageData);
-      return messageData.data;
+      return {
+        role: "assistant",
+        content: messageData?.choices?.[0]?.message?.content,
+      };
     } catch (error) {
       console.log("Error getting message from OpenAI");
       console.log(error);
@@ -79,7 +105,7 @@ const Chat = ({ route, navigation }) => {
       <ChatBubble key={chatCount} text={input} leftBubble={false} />
     );
     const updatedMessages =
-      chatComponents.length === MAX_CONVERSATION_LENGTH
+      chatComponents.length >= MAX_CONVERSATION_LENGTH
         ? [
             ...messages,
             { role: "user", content: input },
@@ -107,6 +133,18 @@ const Chat = ({ route, navigation }) => {
     });
   };
 
+  const submitResponse = () => {
+    // store chat in firebase db
+    storeConversation(messages, authUserId, language, topic, proficiency)
+      .then(() => {
+        navigation.navigate("Chat Options");
+      })
+      .catch((error) => {
+        console.log("Error storing conversation in firebase. Try again.");
+        console.log(error);
+      });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Header
@@ -132,9 +170,7 @@ const Chat = ({ route, navigation }) => {
         {chatEnded ? (
           <TouchableOpacity
             style={styles.submitButton}
-            onPress={() => {
-              console.log("finished conversation");
-            }}
+            onPress={submitResponse}
           >
             <Text style={styles.submitText}>End Conversation</Text>
           </TouchableOpacity>

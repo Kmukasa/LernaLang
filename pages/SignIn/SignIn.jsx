@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,39 +11,30 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { LernaLangLogo } from "../../assets/images";
 import { BackIcon, LadderIcon } from "../../assets/icons";
 
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { collection, doc, getDoc } from "firebase/firestore";
-import { auth, db } from "../../firebase/config";
+import { signInUser } from "../../firebase/config";
+import { AuthContext } from "../../Contexts/AuthContext";
 
 const SignIn = ({ navigation }) => {
+  const { setAuthUserId } = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const onLoginPress = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((response) => {
-        const uid = response.user.uid;
-        const usersRef = collection(db, "users");
-        const userDocRef = doc(usersRef, uid);
-        getDoc(userDocRef)
-          .then((docSnap) => {
-            if (!docSnap.exists) {
-              alert("User does not exist.");
-              return;
-            }
-            const user = docSnap.data();
-            navigation.navigate("Chat Options", { user: user });
-          })
-          .catch((error) => {
-            console.log(error);
-            setErrorMessage(error.message);
-          });
-      })
-      .catch((error) => {
-        console.log(error.message);
-        setErrorMessage("Invalid email or password.");
-      });
+    // signInUser with firebase functions
+    try {
+      signInUser(email, password)
+        .then((userId) => {
+          setAuthUserId(userId);
+        })
+        .catch((error) => {
+          setErrorMessage("Invalid email or password.");
+        });
+    } catch (error) {
+      console.error(error.message);
+      setErrorMessage("Invalid email or password.");
+    }
   };
 
   return (
@@ -65,7 +56,7 @@ const SignIn = ({ navigation }) => {
           }
           rightButton={<LadderIcon height={30} width={30} />}
         />
-        <View style={{ margin: 40 }}>
+        <View style={{ margin: 60 }}>
           <LernaLangLogo height={150} width={100} />
         </View>
         <Text style={styles.error}>{errorMessage}</Text>

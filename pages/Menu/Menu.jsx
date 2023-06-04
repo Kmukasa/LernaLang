@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, SafeAreaView, View } from "react-native";
 import { Header, MenuButton, CloseButton } from "../../components";
 import { LadderIcon } from "../../assets/icons";
+import { signOutUser } from "../../firebase/config";
+import { AuthContext } from "../../Contexts/AuthContext";
 
 const Menu = ({ navigation, chatStarted = false }) => {
+  const { setAuthUserId } = useContext(AuthContext);
+
+  const handleSignOut = () => {
+    signOutUser()
+      .then(() => {
+        console.log("setAuthUserId ", setAuthUserId);
+        setAuthUserId(null);
+        navigation.navigate("Landing");
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Header
@@ -29,7 +45,7 @@ const Menu = ({ navigation, chatStarted = false }) => {
           onPress={() => navigation.navigate("Chat History")}
         />
         <MenuButton text="Profile" onPress={() => console.log("Profile")} />
-        <MenuButton text="Sign Out" onPress={() => console.log("Sign Out")} />
+        <MenuButton text="Sign Out" onPress={handleSignOut} />
       </View>
     </SafeAreaView>
   );

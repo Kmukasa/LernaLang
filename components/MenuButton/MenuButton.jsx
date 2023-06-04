@@ -2,13 +2,9 @@ import React from "react";
 import { StyleSheet, Pressable, Text } from "react-native";
 
 const MenuButton = ({ text, onPress }) => {
-  const handlePress = () => {
-    console.log("Pressed");
-    onPress();
-  };
   return (
     <Pressable
-      onPress={handlePress}
+      onPress={onPress}
       style={({ pressed }) => [
         {
           backgroundColor: pressed ? "#ced5de" : "#ffff",

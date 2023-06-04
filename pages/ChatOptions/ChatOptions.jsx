@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   StyleSheet,
   View,
@@ -24,15 +24,11 @@ const ChatOptions = ({ route, navigation }) => {
   }, [language, topic, proficiency]);
 
   const handleSubmit = () => {
-    if (language === "" || topic === "" || proficiency === "") {
-      console.log("Please select all options");
-    } else {
-      navigation.navigate("Chat", {
-        language: language,
-        topic: topic,
-        proficiency: proficiency,
-      });
-    }
+    navigation.navigate("Chat", {
+      language: language,
+      topic: topic,
+      proficiency: proficiency,
+    });
   };
 
   const handleLanguageSelection = (e) => {
@@ -57,7 +53,7 @@ const ChatOptions = ({ route, navigation }) => {
         rightButton={<LadderIcon height={30} width={30} />}
       />
       <ScrollView style={styles.scrollView}>
-        <View style={styles.topicsList}>
+        <View style={styles.selectionList}>
           <Text style={styles.subHeading}>Select a language</Text>
           <CardList
             items={LANGUAGES}
@@ -65,7 +61,7 @@ const ChatOptions = ({ route, navigation }) => {
             handleSelected={handleLanguageSelection}
           />
         </View>
-        <View style={styles.topicsList}>
+        <View style={styles.selectionList}>
           <Text style={styles.subHeading}>Select a topic</Text>
           <CardList
             items={TOPICS}
@@ -108,8 +104,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 10,
   },
-  languageList: {},
-  topicsList: {},
+  selectionList: {
+    marginTop: 5,
+    marginBottom: 5,
+  },
   proficiencyList: {
     width: "100%",
     marginBottom: 70,

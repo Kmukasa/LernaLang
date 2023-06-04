@@ -1,154 +1,69 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import { ChatHistoryCard, HamburgerMenu, Header } from "../../components";
 import { LadderIcon } from "../../assets/icons";
-const ChatHistory = ({ navigation }) => {
-  const getChatHistory = () => {
-    return [
-      {
-        timestamp: 1609502400000,
-        time: "12:00pm",
-        date: {
-          month: "Jan",
-          day: "01",
-          year: "2021",
-        },
-        language: "French",
-        description: "Lorem ipsum",
-      },
-      {
-        timestamp: 1609588800000,
-        time: "12:00pm",
-        date: {
-          month: "Jan",
-          day: "02",
-          year: "2021",
-        },
-        language: "French",
-        description: "Lorem ipsum dolor sit amet,",
-      },
-      {
-        timestamp: 1609675200000,
-        time: "12:00pm",
-        date: {
-          month: "Jan",
-          day: "03",
-          year: "2021",
-        },
-        language: "French",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc eget nunc. Nulla facilisi. Nulla",
-      },
-      {
-        timestamp: 1609761600000,
-        time: "12:00pm",
-        date: {
-          month: "Jan",
-          day: "04",
-          year: "2021",
-        },
-        language: "French",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc eget nunc. Nulla facilisi. Nulla",
-      },
-      {
-        timestamp: 1609848000000,
-        time: "12:00pm",
-        date: {
-          month: "Jan",
-          day: "05",
-          year: "2021",
-        },
-        language: "French",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc eget nunc. Nulla facilisi. Nulla",
-      },
-      {
-        timestamp: 1609934400000,
-        time: "12:00pm",
-        date: {
-          month: "Jan",
-          day: "06",
-          year: "2021",
-        },
-        language: "French",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc eget nunc. Nulla facilisi. Nulla",
-      },
-      {
-        timestamp: 1610020800000,
-        time: "12:00pm",
-        date: {
-          month: "Jan",
-          day: "07",
-          year: "2021",
-        },
-        language: "French",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc eget nunc. Nulla facilisi. Nulla",
-      },
-      {
-        timestamp: 1610107200000,
-        time: "12:00pm",
-        date: {
-          month: "Jan",
-          day: "08",
-          year: "2021",
-        },
-        language: "French",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc eget nunc. Nulla facilisi. Nulla",
-      },
-      {
-        timestamp: 1610193600000,
-        time: "12:00pm",
-        date: {
-          month: "Jan",
-          day: "09",
-          year: "2021",
-        },
-        language: "French",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc eget nunc. Nulla facilisi. Nulla",
-      },
-      {
-        timestamp: 1610280000000,
-        time: "12:00pm",
-        date: {
-          month: "Jan",
-          day: "10",
-          year: "2021",
-        },
-        language: "French",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc eget nunc. Nulla facilisi. Nulla",
-      },
-      {
-        timestamp: 1610366400000,
-        time: "12:00pm",
-        date: {
-          month: "Jan",
-          day: "11",
-          year: "2021",
-        },
-        language: "French",
-        description: "Lorem ipsum",
-      },
-      {
-        timestamp: 1610452800000,
-        time: "12:00pm",
-        date: {
-          month: "Jan",
-          day: "12",
-          year: "2021",
-        },
-        language: "French",
-        description: "Lorem ipsum dolor sit amet,",
-      },
-    ];
-  };
+import { getConversations } from "../../firebase/config";
+import { AuthContext } from "../../Contexts/AuthContext";
 
-  const data = getChatHistory();
+const ChatHistory = ({ navigation }) => {
+  const { authUserId } = useContext(AuthContext);
+  const [conversations, setConversations] = useState([]);
+
+  // get all the conversations for the user on screen load
+  useEffect(() => {
+    getConversations(authUserId).then((conversations) => {
+      const modifiedConversations = conversations.map((conversation) => {
+        return {
+          timestamp: conversation?.timestamp,
+          time: conversation?.timestamp,
+          date: {
+            month: conversation?.timestamp
+              ?.toDate()
+              ?.toLocaleString("default", { month: "short" }),
+            day: conversation?.timestamp
+              ?.toDate()
+              ?.toLocaleString("default", { day: "2-digit" }),
+            year: conversation?.timestamp
+              ?.toDate()
+              ?.toLocaleString("default", { year: "numeric" }),
+          },
+          onPress: () => {
+            console.log("conversation pressed with id: ", conversation.id);
+          },
+          language: conversation?.language,
+          description: conversation?.messages[1]?.content,
+        };
+      });
+      setConversations(modifiedConversations);
+    });
+  }, []);
+
+  const conversationData = [
+    {
+      timestamp: 1609502400000,
+      time: "12:00pm",
+      date: {
+        month: "Jan",
+        day: "01",
+        year: "2021",
+      },
+      language: "French",
+      description: "Lorem ipsum",
+    },
+    {
+      timestamp: 1609588800000,
+      time: "12:00pm",
+      date: {
+        month: "Jan",
+        day: "02",
+        year: "2021",
+      },
+      language: "French",
+      description: "Lorem ipsum dolor sit amet,",
+    },
+  ];
+
+  console.log("conversations: ", conversations);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -163,7 +78,7 @@ const ChatHistory = ({ navigation }) => {
         style={styles.scrollView}
         contentContainerStyle={styles.scollViewcontent}
       >
-        {data.map((chat) => (
+        {conversations.map((chat) => (
           <ChatHistoryCard
             key={chat.timestamp}
             date={chat.date}

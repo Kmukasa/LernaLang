@@ -31,7 +31,7 @@ const ChatHistoryCard = ({
           <Text style={styles.language}>{language}</Text>
         </Pressable>
         <Text style={styles.description}>
-          {description.substring(0, MAX_CHARS_DESCRIPTION)}
+          {description.substring(0, MAX_CHARS_DESCRIPTION)}...
         </Text>
       </View>
       <Pressable style={styles.deleteChat} onPress={deleteChat}>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flexWrap: "wrap",
     textAlign: "left",
-    width: "70%",
+    width: "65%",
   },
   language: {
     fontSize: 20,
@@ -77,9 +77,9 @@ const styles = StyleSheet.create({
     paddingRight: 15,
   },
   dateContainer: {
-    width: "20%",
+    width: "25%",
     flexDirection: "column",
-    paddingRight: 10,
+    paddingRight: 5,
   },
   dateText: {
     fontSize: 16,

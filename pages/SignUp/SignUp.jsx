@@ -11,43 +11,31 @@ import { LernaLangLogo } from "../../assets/images";
 import { Header } from "../../components";
 import { BackIcon, LadderIcon } from "../../assets/icons";
 
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
-import { db, auth } from "../../firebase/config";
+import { signUpUser } from "../../firebase/config";
+
+// import { createUserWithEmailAndPassword } from "firebase/auth";
+// import { collection, addDoc } from "firebase/firestore";
+// import { db, auth } from "../../firebase/config";
 
 const SignUp = ({ navigation }) => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  console.log("db: ", db.collection);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onRegisterPress = () => {
     if (password !== confirmPassword) {
-      alert("Passwords don't match.");
+      setErrorMessage("Passwords don't match.");
       return;
     }
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((response) => {
-        console.log(response);
-        const uid = response.user.uid;
-        const newUser = {
-          id: uid,
-          email,
-          fullName,
-        };
-        const usersRef = collection(db, "users");
-        addDoc(usersRef, newUser)
-          .then(() => {
-            navigation.navigate("Chat Options");
-          })
-          .catch((error) => {
-            alert(error);
-          });
+    signUpUser(email, password, fullName)
+      .then((user) => {
+        navigation.navigate("Chat Options", { userId: user.uid });
       })
       .catch((error) => {
-        alert(error);
+        console.error(error);
+        setErrorMessage(error.message);
       });
   };
 
@@ -73,6 +61,7 @@ const SignUp = ({ navigation }) => {
         <View style={{ margin: 40 }}>
           <LernaLangLogo height={150} width={100} />
         </View>
+        <Text style={styles.error}>{errorMessage}</Text>
         <View style={styles.inputsView}>
           <TextInput
             style={styles.input}
@@ -162,6 +151,13 @@ const styles = StyleSheet.create({
     marginRight: 30,
     paddingLeft: 16,
     color: "#000",
+  },
+  error: {
+    color: "red",
+    fontSize: 12,
+    fontWeight: "bold",
+    textAlign: "left",
+    width: "80%",
   },
   button: {
     backgroundColor: "#0601B4",
