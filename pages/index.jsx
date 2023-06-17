@@ -6,3 +6,4 @@ export { default as Chat } from "./Chat/Chat";
 export { default as ChatHistory } from "./ChatHistory/ChatHistory";
 export { default as SignIn } from "./SignIn/SignIn";
 export { default as SignUp } from "./SignUp/SignUp";
+export { default as Study } from "./Study/Study";

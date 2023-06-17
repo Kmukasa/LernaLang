@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, SafeAreaView, ScrollView } from "react-native";
-import { ChatHistoryCard, HamburgerMenu, Header } from "../../components";
+import { ChatHistoryCard, Header } from "../../components";
 import { LadderIcon } from "../../assets/icons";
 import { getConversations } from "../../firebase/config";
 import { AuthContext } from "../../Contexts/AuthContext";
@@ -69,10 +69,8 @@ const ChatHistory = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <Header
         text="Chat History"
-        leftButton={
-          <HamburgerMenu onPress={() => navigation.navigate("Menu")} />
-        }
-        rightButton={<LadderIcon height={30} width={30} />}
+        leftButton={<LadderIcon height={30} width={30} />}
+        rightButton={null}
       />
       <ScrollView
         style={styles.scrollView}

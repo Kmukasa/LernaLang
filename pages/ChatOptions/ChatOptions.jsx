@@ -7,7 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { CardList, Header, RadioButton, HamburgerMenu } from "../../components";
+import { CardList, Header, RadioButton } from "../../components";
 import { LadderIcon } from "../../assets/icons";
 import { LANGUAGES, SKILL_LEVELS, TOPICS } from "../../components/constants";
 
@@ -47,10 +47,8 @@ const ChatOptions = ({ route, navigation }) => {
     <SafeAreaView style={styles.container}>
       <Header
         text="Chat Options"
-        leftButton={
-          <HamburgerMenu onPress={() => navigation.navigate("Menu")} />
-        }
-        rightButton={<LadderIcon height={30} width={30} />}
+        leftButton={<LadderIcon height={30} width={30} />}
+        rightButton={null}
       />
       <ScrollView style={styles.scrollView}>
         <View style={styles.selectionList}>
@@ -114,13 +112,13 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     backgroundColor: "#0601B4",
-    bottom: 20,
+    // bottom: 20,
     width: "90%",
     height: 50,
     borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 15,
   },
   submitText: {
     color: "#fff",

@@ -2,7 +2,7 @@ import * as React from "react";
 import Svg, { Defs, Circle, Path } from "react-native-svg";
 /* SVGR has dropped some elements not supported by react-native-svg: style */
 
-function AccountIcon({ width, height, color }) {
+const AccountIcon = ({ width, height, color }) => {
   return (
     <Svg
       width={width || "800px"}
@@ -21,6 +21,6 @@ function AccountIcon({ width, height, color }) {
       />
     </Svg>
   );
-}
+};
 
 export default AccountIcon;

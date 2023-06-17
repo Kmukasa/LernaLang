@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { auth } from "./firebase/config";
 import { onAuthStateChanged } from "@firebase/auth";
 import { AuthContext } from "./Contexts/AuthContext";
@@ -14,10 +14,9 @@ import {
   SignUp,
 } from "./pages";
 
-// export const AuthContext = React.createContext();
+import { BottomBarNavigator, AuthNavigator } from "./navigators";
 
 export default function App() {
-  const Stack = createNativeStackNavigator();
   const [authUserId, setAuthUserId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -41,26 +40,11 @@ export default function App() {
   return (
     <AuthContext.Provider value={value}>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {authUserId ? (
-            <>
-              <Stack.Screen name="Chat Options" component={ChatOptions} />
-              <Stack.Screen name="Menu" component={Menu} />
-              <Stack.Screen name="Chat" component={Chat} />
-              <Stack.Screen name="Chat History" component={ChatHistory} />
-            </>
-          ) : (
-            <>
-              <Stack.Screen name="Landing" component={Landing} />
-              <Stack.Screen name="SignUp" component={SignUp} />
-              <Stack.Screen name="SignIn" component={SignIn} />
-              <Stack.Screen name="Chat Options" component={ChatOptions} />
-              <Stack.Screen name="Menu" component={Menu} />
-              <Stack.Screen name="Chat" component={Chat} />
-              <Stack.Screen name="Chat History" component={ChatHistory} />
-            </>
-          )}
-        </Stack.Navigator>
+        {authUserId ? (
+          <BottomBarNavigator chatStarted={false} />
+        ) : (
+          <AuthNavigator />
+        )}
       </NavigationContainer>
     </AuthContext.Provider>
   );

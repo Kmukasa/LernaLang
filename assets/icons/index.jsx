@@ -9,6 +9,10 @@ export { default as BackIcon } from "./BackIcon";
 export { default as ClockIcon } from "./ClockIcon";
 export { default as EmailIcon } from "./EmailIcon";
 export { default as AccountIcon } from "./AccountIcon";
+export { default as ChatIcon } from "./ChatIcon";
+export { default as HistoryIcon } from "./HistoryIcon";
+export { default as StudyIcon } from "./StudyIcon";
+export { default as ProfileIcon } from "./ProfileIcon";
 
 // topics icons
 export { default as FoodIcon } from "./topics/FoodIcon";

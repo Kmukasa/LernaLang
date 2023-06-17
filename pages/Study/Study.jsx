@@ -3,19 +3,17 @@ import { SafeAreaView, StyleSheet } from "react-native";
 import { Header } from "../../components";
 import { LadderIcon } from "../../assets/icons";
 
-const Profile = () => {
+const Study = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Header
-        text="Profile"
+        text="Study"
         leftButton={<LadderIcon height={30} width={30} />}
         rightButton={null}
       />
     </SafeAreaView>
   );
 };
-
-export default Profile;
 
 const styles = StyleSheet.create({
   container: {
@@ -25,3 +23,5 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 });
+
+export default Study;
