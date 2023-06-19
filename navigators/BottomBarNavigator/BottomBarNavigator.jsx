@@ -14,35 +14,60 @@ const Tab = createBottomTabNavigator();
 const BottomBarNavigator = ({ chatStarted }) => {
   return (
     <Tab.Navigator
-      screenOptions={{ headerShown: false }}
-      tabBarOptions={{ showLabel: false }}
+      screenOptions={{ headerShown: false, tabBarShowLabel: false }}
     >
       <Tab.Screen
         name="Chat"
         component={chatStarted ? Chat : ChatOptions}
         options={{
-          tabBarIcon: () => <ChatIcon height={"40px"} width={"40px"} />,
+          tabBarIcon: ({ focused }) => (
+            <ChatIcon
+              height={"40px"}
+              width={"40px"}
+              color={focused ? "#000" : "#808080"}
+            />
+          ),
         }}
       />
       <Tab.Screen
         name="Study"
         component={Study}
         options={{
-          tabBarIcon: () => <StudyIcon height={"45px"} width={"45px"} />,
+          tabBarIcon: ({ focused }) => (
+            <StudyIcon
+              height={"45px"}
+              width={"45px"}
+              color={focused ? "#000" : "#808080"}
+            />
+          ),
         }}
       />
       <Tab.Screen
         name="Chat History"
         component={ChatHistory}
         options={{
-          tabBarIcon: () => <HistoryIcon height={"50px"} width={"50px"} />,
+          tabBarIcon: ({ focused }) => {
+            return (
+              <HistoryIcon
+                height={"50px"}
+                width={"50px"}
+                color={focused ? "#000" : "#808080"}
+              />
+            );
+          },
         }}
       />
       <Tab.Screen
         name="Profile"
         component={Profile}
         options={{
-          tabBarIcon: () => <ProfileIcon height={"32px"} width={"32px"} />,
+          tabBarIcon: ({ focused }) => (
+            <ProfileIcon
+              height={"32px"}
+              width={"32px"}
+              color={focused ? "#000" : "#808080"}
+            />
+          ),
         }}
       />
     </Tab.Navigator>

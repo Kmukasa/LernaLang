@@ -23,8 +23,7 @@ function StudyIcon({ width, height, color }) {
         width={41.6761}
         height={26}
         rx={3.5}
-        stroke="#000"
-        // strokeOpacity={0.56}
+        stroke={color || "#000"}
         strokeWidth={3}
       />
     </Svg>
