@@ -16,6 +16,7 @@ import {
   addDoc,
   query,
   where,
+  getDoc,
   getDocs,
   serverTimestamp,
 } from "firebase/firestore";
@@ -165,6 +166,41 @@ const getConversations = async (userId) => {
   return conversations;
 };
 
+/*
+ * getConversation -> retrieves a conversation from the database
+ * @param conversationId -> id of the conversation to be retrieved
+ * @return a conversation object
+ */
+const getConversation = async (conversationId) => {
+  // If a valid conversation is not passed in, throw an error
+  if (!conversationId) {
+    throw new Error("Invalid conversation");
+  }
+  // get the conversation from the conversations collection
+  const conversationRef = doc(db, "conversations", conversationId);
+  const conversationDoc = await getDoc(conversationRef);
+  if (conversationDoc.exists()) {
+    return conversationDoc.data();
+  } else {
+    throw new Error("Conversation does not exist");
+  }
+};
+
+/*
+ * deleteConversation -> deletes a conversation from the database
+ * @param conversationId -> id of the conversation to be deleted
+ * @return void, throw exception if error occurs
+ */
+const deleteConversation = async (conversationId) => {
+  // If a valid conversation is not passed in, throw an error
+  if (!conversationId) {
+    throw new Error("Invalid conversation");
+  }
+  // delete the conversation from the conversations collection
+  await deleteDoc(doc(db, "conversations", conversationId));
+  return;
+};
+
 export {
   firebase,
   auth,
@@ -172,6 +208,8 @@ export {
   signInUser,
   signUpUser,
   signOutUser,
+  getConversation,
   getConversations,
   storeConversation,
+  deleteConversation,
 };
