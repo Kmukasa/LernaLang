@@ -1,18 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { auth } from "./firebase/config";
 import { onAuthStateChanged } from "@firebase/auth";
 import { AuthContext } from "./Contexts/AuthContext";
-import {
-  ChatOptions,
-  Landing,
-  Chat,
-  Menu,
-  ChatHistory,
-  SignIn,
-  SignUp,
-} from "./pages";
 
 import { BottomBarNavigator, AuthNavigator } from "./navigators";
 

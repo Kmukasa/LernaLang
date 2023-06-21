@@ -2,7 +2,6 @@
  * This file is used to initialize the firebase app and
  * export the auth, db and firebase functions
  */
-
 import { initializeApp } from "firebase/app";
 import {
   getAuth,

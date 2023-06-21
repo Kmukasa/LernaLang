@@ -58,6 +58,7 @@ const getStories = () => {
     "./components/stories/ChatBubble.stories.js": require("../components/stories/ChatBubble.stories.js"),
     "./components/stories/ChatHistoryCard.stories.js": require("../components/stories/ChatHistoryCard.stories.js"),
     "./components/stories/ChatInputField.stories.js": require("../components/stories/ChatInputField.stories.js"),
+    "./components/stories/FlashCard.stories.js": require("../components/stories/FlashCard.stories.js"),
     "./components/stories/HamburgerMenu.stories.js": require("../components/stories/HamburgerMenu.stories.js"),
     "./components/stories/Header.stories.js": require("../components/stories/Header.stories.js"),
     "./components/stories/MenuButton.stories.js": require("../components/stories/MenuButton.stories.js"),

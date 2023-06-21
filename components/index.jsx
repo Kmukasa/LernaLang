@@ -9,3 +9,4 @@ export { default as ChatHistoryCard } from "./ChatHistoryCard/ChatHistoryCard";
 export { default as CardList } from "./CardList/CardList";
 export { default as Header } from "./Header/Header";
 export { default as CloseButton } from "./CloseButton/CloseButton";
+export { default as FlashCard } from "./FlashCard/FlashCard";
