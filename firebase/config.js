@@ -8,6 +8,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -102,6 +103,21 @@ const signOutUser = async () => {
     console.log(error);
     throw error;
   });
+};
+
+/*
+ * resetPassword -> handles user authentication to reset password
+ * @param email -> user email
+ */
+
+const resetPassword = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    console.log("Password reset email sent!");
+  } catch (error) {
+    console.log("Error sending password reset email:", error);
+    throw error;
+  }
 };
 
 // FIRESTORE FUNCTIONS

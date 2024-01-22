@@ -11,8 +11,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { LernaLangLogo } from "../../assets/images";
 import { BackIcon, LadderIcon } from "../../assets/icons";
 
-import { signInUser } from "../../firebase/config";
-import { AuthContext } from "../../Contexts/AuthContext";
+import { signInUser, resetPassword } from "../../firebase/config";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const SignIn = ({ navigation }) => {
   const { setAuthUserId } = useContext(AuthContext);
@@ -34,6 +34,22 @@ const SignIn = ({ navigation }) => {
     } catch (error) {
       console.error(error.message);
       setErrorMessage("Invalid email or password.");
+    }
+  };
+
+  const resetPasswordWithEmail = (email) => {
+    // resetPassword with firebase functions
+    try {
+      resetPassword(email)
+        .then(() => {
+          alert("Password reset email sent.");
+        })
+        .catch((error) => {
+          setErrorMessage("Invalid email.");
+        });
+    } catch (error) {
+      console.error(error.message);
+      setErrorMessage("Invalid email.");
     }
   };
 
@@ -80,6 +96,15 @@ const SignIn = ({ navigation }) => {
             underlineColorAndroid="transparent"
             autoCapitalize="none"
           />
+          <Text
+            onPress={() => resetPasswordWithEmail(email)}
+            style={{
+              ...styles.textLink,
+              width: "80%",
+            }}
+          >
+            Forgot password?
+          </Text>
         </View>
         <TouchableOpacity style={styles.button} onPress={() => onLoginPress()}>
           <Text style={styles.buttonTitle}>Sign In</Text>
@@ -89,7 +114,7 @@ const SignIn = ({ navigation }) => {
             Don't have an account?{" "}
             <Text
               onPress={() => navigation.navigate("SignUp")}
-              style={styles.footerLink}
+              style={styles.textLink}
             >
               Create an account
             </Text>
@@ -160,7 +185,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#2e2e2d",
   },
-  footerLink: {
+  textLink: {
     color: "#0601B4",
     fontWeight: "bold",
     fontSize: 16,
