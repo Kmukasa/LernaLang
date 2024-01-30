@@ -223,6 +223,7 @@ export {
   signInUser,
   signUpUser,
   signOutUser,
+  resetPassword,
   getConversation,
   getConversations,
   storeConversation,
