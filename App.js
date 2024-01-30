@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { auth } from "./firebase/config";
 import { onAuthStateChanged } from "@firebase/auth";
-import { AuthContext } from "./Contexts/AuthContext";
-
+import { AuthContext } from "./contexts/AuthContext";
 import { BottomBarNavigator, AuthNavigator } from "./navigators";
 
 export default function App() {
