@@ -11,7 +11,7 @@ import { ChatBubble, ChatInputField, Header } from "../../components";
 import { LadderIcon, BackIcon } from "../../assets/icons";
 import { OPENAI_MODEL, OPENAI_CHAT_REQUEST_URL, OPENAI_API_KEY } from "@env";
 import { storeConversation } from "../../firebase/config";
-import { AuthContext } from "../../Contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const MAX_CONVERSATION_LENGTH = 2;
 const MAX_RETRIES = 3;
@@ -34,11 +34,57 @@ const Chat = ({ route, navigation }) => {
   };
 
   const { authUserId } = useContext(AuthContext);
+  // const translation = "This is a translation";
+
+  const getTranslation = async (text, language) => {
+    let response = null;
+    let translation = "";
+    let messageData = [
+      {
+        role: "system",
+        content: "You are a helpful translator called Lerna",
+      },
+      {
+        role: "user",
+        content: "Translate " + text + " from " + language + "to English",
+      },
+    ];
+
+    try {
+      response = await fetch(OPENAI_CHAT_REQUEST_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: OPENAI_MODEL,
+          messages: messageData,
+          max_tokens: 150,
+        }),
+      });
+
+      // After retrying if response is server_error, throw error
+      if (!response.ok) {
+        const error = await response.json();
+        console.error("OpenAI API Error:", error);
+        throw new Error("OpenAI API Error");
+      }
+
+      // If response is ok, return translation data
+      let translationData = await response.json();
+      translation = translationData?.choices?.[0]?.message?.content;
+    } catch (error) {
+      console.log("Error getting translation");
+      console.log(error);
+    }
+
+    return translation;
+  };
 
   // function for sending a message to the api
   const getMessage = async (messages) => {
     let response = null;
-    let retryCount = 0;
     let messageData = null;
     // TODO: Add retry logic
     try {
@@ -78,17 +124,20 @@ const Chat = ({ route, navigation }) => {
   useEffect(() => {
     getMessage(messages).then((messageData) => {
       setMessages([...messages, messageData]);
-      const newChat = (
-        <ChatBubble
-          key={chatCount}
-          text={messageData.content}
-          leftBubble={true}
-        />
-      );
-      setChatComponents([...chatComponents, newChat]);
-      setChatCount(chatCount + 1);
-      console.log("chatCount ", chatCount);
-      console.log("UseEffect Done");
+      getTranslation(messageData.content, language).then((translation) => {
+        const newChat = (
+          <ChatBubble
+            key={chatCount}
+            text={messageData.content}
+            translation={translation}
+            leftBubble={true}
+          />
+        );
+        setChatComponents([...chatComponents, newChat]);
+        setChatCount(chatCount + 1);
+        console.log("chatCount ", chatCount);
+        console.log("UseEffect Done");
+      });
     });
   }, []);
 
@@ -101,35 +150,45 @@ const Chat = ({ route, navigation }) => {
 
   const handleSendResponse = (input) => {
     // Add user message to chat
-    const newChat = (
-      <ChatBubble key={chatCount} text={input} leftBubble={false} />
-    );
-    const updatedMessages =
-      chatComponents.length >= MAX_CONVERSATION_LENGTH
-        ? [
-            ...messages,
-            { role: "user", content: input },
-            endConversationMessage,
-          ]
-        : [...messages, { role: "user", content: input }];
-    const updatedChatComponents = [...chatComponents, newChat];
-    setMessages(updatedMessages);
-    setChatComponents(updatedChatComponents);
-    setChatCount(chatCount + 1);
-    setChatEnded(chatComponents.length >= MAX_CONVERSATION_LENGTH);
+    getTranslation(input, language).then((translation) => {
+      const newChat = (
+        <ChatBubble
+          key={chatCount}
+          text={input}
+          leftBubble={false}
+          translation={translation}
+        />
+      );
+      const updatedMessages =
+        chatComponents.length >= MAX_CONVERSATION_LENGTH
+          ? [
+              ...messages,
+              { role: "user", content: input },
+              endConversationMessage,
+            ]
+          : [...messages, { role: "user", content: input }];
+      const updatedChatComponents = [...chatComponents, newChat];
+      setMessages(updatedMessages);
+      setChatComponents(updatedChatComponents);
+      setChatCount(chatCount + 1);
+      setChatEnded(chatComponents.length >= MAX_CONVERSATION_LENGTH);
+    });
 
     // Add Lerna's response to chat
     getMessage(updatedMessages).then((messageData) => {
-      const newChat = (
-        <ChatBubble
-          key={chatCount + 1}
-          text={messageData.content}
-          leftBubble={true}
-        />
-      );
-      setMessages([...updatedMessages, messageData]);
-      setChatComponents([...updatedChatComponents, newChat]);
-      setChatCount(chatCount + 2);
+      getTranslation(messageData.content, language).then((translation) => {
+        const newChat = (
+          <ChatBubble
+            key={chatCount + 1}
+            text={messageData.content}
+            leftBubble={true}
+            translation={translation}
+          />
+        );
+        setMessages([...updatedMessages, messageData]);
+        setChatComponents([...updatedChatComponents, newChat]);
+        setChatCount(chatCount + 2);
+      });
     });
   };
 
@@ -143,6 +202,7 @@ const Chat = ({ route, navigation }) => {
         console.log("Error storing conversation in firebase. Try again.");
         console.log(error);
       });
+    navigation.navigate("Chat Options");
   };
 
   return (
@@ -156,6 +216,9 @@ const Chat = ({ route, navigation }) => {
         }
         rightButton={<LadderIcon height={30} width={30} />}
       />
+      <Text style={styles.instruction}>
+        Hold chat bubble to get translation
+      </Text>
       <KeyboardAvoidingView behavior="padding" style={styles.scrollView}>
         <ScrollView
           style={{ flex: 1 }}
@@ -175,7 +238,11 @@ const Chat = ({ route, navigation }) => {
             <Text style={styles.submitText}>End Conversation</Text>
           </TouchableOpacity>
         ) : (
-          <ChatInputField value={""} sendResponse={handleSendResponse} />
+          <ChatInputField
+            value={""}
+            sendResponse={handleSendResponse}
+            language={language}
+          />
         )}
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -213,6 +280,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
     fontWeight: "bold",
+  },
+  instruction: {
+    fontSize: 16,
+    color: "#000",
+    opacity: 0.5,
+    marginTop: 5,
+    marginBottom: 5,
   },
 });
 

@@ -5,11 +5,9 @@ import { ChatBubble } from "../";
 const ChatBubbleMeta = {
   title: "ChatBubble",
   component: ChatBubble,
-  argTypes: {
-    onPress: { action: "pressed the button" },
-  },
   args: {
     text: "Habari Keisha, ulifanya nini leo?",
+    translation: "Hello Keisha, what did you do today?",
     leftBubble: true,
   },
   decorators: [

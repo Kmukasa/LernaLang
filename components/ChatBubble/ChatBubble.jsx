@@ -1,11 +1,20 @@
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
-const ChatBubble = ({ text, leftBubble = false }) => {
+const ChatBubble = ({ text, translation, leftBubble = false }) => {
+  const [showTranslation, setShowTranslation] = useState(false);
+  console.log("translaton in chatBubble", translation);
+
+  const handlePress = () => {
+    setShowTranslation(!showTranslation);
+  };
+
   return (
-    <View style={leftBubble ? styles.chatBubbleLeft : styles.chatBubbleRight}>
-      <Text style={styles.text}>{text}</Text>
-    </View>
+    <TouchableOpacity onLongPress={handlePress}>
+      <View style={leftBubble ? styles.chatBubbleLeft : styles.chatBubbleRight}>
+        <Text style={styles.text}>{showTranslation ? translation : text}</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
