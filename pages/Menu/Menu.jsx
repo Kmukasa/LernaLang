@@ -3,7 +3,7 @@ import { StyleSheet, SafeAreaView, View } from "react-native";
 import { Header, MenuButton, CloseButton } from "../../components";
 import { LadderIcon } from "../../assets/icons";
 import { signOutUser } from "../../firebase/config";
-import { AuthContext } from "../../Contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const Menu = ({ navigation, chatStarted = false }) => {
   const { setAuthUserId } = useContext(AuthContext);

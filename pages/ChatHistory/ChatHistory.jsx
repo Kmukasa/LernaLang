@@ -3,7 +3,7 @@ import { StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import { ChatHistoryCard, Header } from "../../components";
 import { LadderIcon } from "../../assets/icons";
 import { getConversations } from "../../firebase/config";
-import { AuthContext } from "../../Contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const ChatHistory = ({ navigation }) => {
   const { authUserId } = useContext(AuthContext);
