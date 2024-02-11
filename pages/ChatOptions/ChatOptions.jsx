@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   StyleSheet,
   View,
@@ -10,12 +10,15 @@ import {
 import { CardList, Header, RadioButton } from "../../components";
 import { LadderIcon } from "../../assets/icons";
 import { LANGUAGES, SKILL_LEVELS, TOPICS } from "../../components/constants";
+import { ChatContext } from "../../contexts/ChatContext";
 
 const ChatOptions = ({ route, navigation }) => {
   const [language, setLanguage] = useState("");
   const [topic, setTopic] = useState("");
   const [proficiency, setProficiency] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(true);
+
+  const { setChatStarted } = useContext(ChatContext);
 
   useEffect(() => {
     if (language !== "" && topic !== "" && proficiency !== "") {
@@ -24,6 +27,7 @@ const ChatOptions = ({ route, navigation }) => {
   }, [language, topic, proficiency]);
 
   const handleSubmit = () => {
+    setChatStarted(true);
     navigation.navigate("Chat", {
       language: language,
       topic: topic,

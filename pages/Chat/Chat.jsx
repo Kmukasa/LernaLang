@@ -12,6 +12,7 @@ import { LadderIcon, BackIcon } from "../../assets/icons";
 import { OPENAI_MODEL, OPENAI_CHAT_REQUEST_URL, OPENAI_API_KEY } from "@env";
 import { storeConversation } from "../../firebase/config";
 import { AuthContext } from "../../contexts/AuthContext";
+import { ChatContext } from "../../contexts/ChatContext";
 
 const MAX_CONVERSATION_LENGTH = 2;
 const MAX_RETRIES = 3;
@@ -34,9 +35,15 @@ const Chat = ({ route, navigation }) => {
   };
 
   const { authUserId } = useContext(AuthContext);
+  const { setChatStarted } = useContext(ChatContext);
   // const translation = "This is a translation";
 
   const getTranslation = async (text, language) => {
+    // if language if English, return the text
+    if (language === "English") {
+      return text;
+    }
+
     let response = null;
     let translation = "";
     let messageData = [
@@ -172,22 +179,22 @@ const Chat = ({ route, navigation }) => {
       setChatComponents(updatedChatComponents);
       setChatCount(chatCount + 1);
       setChatEnded(chatComponents.length >= MAX_CONVERSATION_LENGTH);
-    });
 
-    // Add Lerna's response to chat
-    getMessage(updatedMessages).then((messageData) => {
-      getTranslation(messageData.content, language).then((translation) => {
-        const newChat = (
-          <ChatBubble
-            key={chatCount + 1}
-            text={messageData.content}
-            leftBubble={true}
-            translation={translation}
-          />
-        );
-        setMessages([...updatedMessages, messageData]);
-        setChatComponents([...updatedChatComponents, newChat]);
-        setChatCount(chatCount + 2);
+      // Add Lerna's response to chat
+      getMessage(updatedMessages).then((messageData) => {
+        getTranslation(messageData.content, language).then((translation) => {
+          const newChat = (
+            <ChatBubble
+              key={chatCount + 1}
+              text={messageData.content}
+              leftBubble={true}
+              translation={translation}
+            />
+          );
+          setMessages([...updatedMessages, messageData]);
+          setChatComponents([...updatedChatComponents, newChat]);
+          setChatCount(chatCount + 2);
+        });
       });
     });
   };
@@ -202,7 +209,8 @@ const Chat = ({ route, navigation }) => {
         console.log("Error storing conversation in firebase. Try again.");
         console.log(error);
       });
-    navigation.navigate("Chat Options");
+    setChatStarted(false);
+    // navigation.navigate("Chat Options");
   };
 
   return (
