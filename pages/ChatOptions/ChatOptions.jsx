@@ -27,12 +27,12 @@ const ChatOptions = ({ route, navigation }) => {
   }, [language, topic, proficiency]);
 
   const handleSubmit = () => {
-    setChatStarted(true);
     navigation.navigate("Chat", {
       language: language,
       topic: topic,
       proficiency: proficiency,
     });
+    setChatStarted(true);
   };
 
   const handleLanguageSelection = (e) => {
@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     backgroundColor: "#0601B4",
-    // bottom: 20,
     width: "90%",
     height: 50,
     borderRadius: 20,

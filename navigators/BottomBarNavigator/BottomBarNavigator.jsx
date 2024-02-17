@@ -15,6 +15,7 @@ const BottomBarNavigator = ({ chatStarted }) => {
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false, tabBarShowLabel: false }}
+      backBehavior="history"
     >
       <Tab.Screen
         name="Chat"

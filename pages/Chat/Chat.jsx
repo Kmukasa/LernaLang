@@ -201,16 +201,13 @@ const Chat = ({ route, navigation }) => {
 
   const submitResponse = () => {
     // store chat in firebase db
-    storeConversation(messages, authUserId, language, topic, proficiency)
-      .then(() => {
-        navigation.navigate("Chat Options");
-      })
-      .catch((error) => {
+    storeConversation(messages, authUserId, language, topic, proficiency).catch(
+      (error) => {
         console.log("Error storing conversation in firebase. Try again.");
         console.log(error);
-      });
+      }
+    );
     setChatStarted(false);
-    // navigation.navigate("Chat Options");
   };
 
   return (
