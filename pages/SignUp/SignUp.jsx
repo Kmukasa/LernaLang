@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { LernaLangLogo } from "../../assets/images";
+import { LernaLangLogo2 } from "../../assets/images";
 import { Header } from "../../components";
 import { BackIcon, LadderIcon } from "../../assets/icons";
 
@@ -58,8 +58,8 @@ const SignUp = ({ navigation }) => {
           }
           rightButton={<LadderIcon height={30} width={30} />}
         />
-        <View style={{ margin: 40 }}>
-          <LernaLangLogo height={150} width={100} />
+        <View style={{ margin: 60 }}>
+          <LernaLangLogo2 height={150} width={100} />
         </View>
         <Text style={styles.error}>{errorMessage}</Text>
         <View style={styles.inputsView}>

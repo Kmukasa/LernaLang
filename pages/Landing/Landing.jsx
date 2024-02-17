@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, SafeAreaView, View, Text, TextInput } from "react-native";
-import { LernaLangLogo } from "../../assets/images";
+import { LernaLangLogo2 } from "../../assets/images";
 import { SignInButton } from "../../components";
 import { EmailIcon, AccountIcon } from "../../assets/icons";
 
@@ -9,9 +9,9 @@ const Landing = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <Text style={styles.titleStyles}>Get Started</Text>
       <View style={styles.logoStyles}>
-        <LernaLangLogo height={150} width={100} />
+        <LernaLangLogo2 height={150} width={100} />
         <Text style={styles.slogan}>
-          Start practicing your language learning with Lerna{" "}
+          Enhance your language learning journey with Lerna
         </Text>
       </View>
       <View style={styles.signInButtonStyles}>
