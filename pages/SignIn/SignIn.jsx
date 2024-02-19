@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Header } from "../../components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { LernaLangLogo } from "../../assets/images";
+import { LernaLangLogo2 } from "../../assets/images";
 import { BackIcon, LadderIcon } from "../../assets/icons";
 
 import { signInUser, resetPassword } from "../../firebase/config";
@@ -72,8 +72,8 @@ const SignIn = ({ navigation }) => {
           }
           rightButton={<LadderIcon height={30} width={30} />}
         />
-        <View style={{ margin: 60 }}>
-          <LernaLangLogo height={150} width={100} />
+        <View style={{ margin: 100 }}>
+          <LernaLangLogo2 height={150} width={100} />
         </View>
         <Text style={styles.error}>{errorMessage}</Text>
         <View style={styles.inputsView}>
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   footerView: {
     flex: 1,
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 30,
   },
   footerText: {
     fontSize: 16,
